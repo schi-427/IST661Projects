@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IST 661 Project 3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .title {
+            text-align: center;
+            color: #007a87;
+            /* Coastal Carolina Teal */
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            border-bottom: 3px solid #c89b3c;
+            /* Coastal Carolina Bronze */
+            padding-bottom: 15px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 1em;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .authors {
+            text-align: center;
+            color: #555;
+            font-size: 1em;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .header {
+            text-align: left;
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .topic-button {
+            background: white;
+            color: #007a87;
+            /* Teal */
+            border: 2px solid #007a87;
+            padding: 15px 20px;
+            border-radius: 4px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            width: 100%;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .topic-button:hover {
+            background: #007a87;
+            color: white;
+            border-color: #007a87;
+        }
+
+        .topic-button:active {
+            background: #005a63;
+            border-color: #005a63;
+        }
+
+        .back-button {
+            background: #c89b3c;
+            /* Bronze */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 30px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .back-button:hover {
+            background: #a67c2a;
+        }
+
+        .detail-content {
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .detail-title {
+            color: #007a87;
+            /* Teal */
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            font-weight: 700;
+            border-bottom: 2px solid #c89b3c;
+            /* Bronze */
+            padding-bottom: 12px;
+        }
+
+        .detail-section {
+            margin-bottom: 30px;
+        }
+
+        .detail-section h3 {
+            color: #007a87;
+            /* Teal */
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .detail-section p {
+            color: #555;
+            font-size: 1.05em;
+            line-height: 1.7;
+            margin-bottom: 1.2em;
+        }
+
+        .detail-section details>div p {
+            margin-bottom: 1.2em;
+        }
+
+        .detail-section details>div p:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-section ul {
+            list-style-type: none;
+        }
+
+        .detail-section details {
+            margin-bottom: 15px;
+        }
+
+        .detail-section details summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #007a87;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: #f9f9f9;
+            border-left: 3px solid #c89b3c;
+            padding-left: 15px;
+        }
+
+        .detail-section details summary:hover {
+            background-color: #f0f0f0;
+        }
+
+        .detail-section details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .detail-section details>div {
+            margin-left: 20px;
+            margin-top: 10px;
+            padding: 10px;
+        }
+
+        .detail-section a[href^="#cite"] {
+            color: #007a87;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .detail-section a[href^="#cite"]:hover {
+            text-decoration: underline;
+            color: #005a63;
+        }
+
+        .detail-section ol li[id^="cite"] {
+            scroll-margin-top: 20px;
+            /* Adds space when scrolling to the citation */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .detail-section ol li[id^="cite"] {
+            scroll-margin-top: 20px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .detail-section ol li[id^="cite"].highlighted {
+            background-color: #fff3cd;
+            box-shadow: 0 0 10px rgba(200, 155, 60, 0.5);
+            animation: highlightPulse 2s ease-out;
+        }
+
+        @keyframes highlightPulse {
+            0% {
+                background-color: #fff3cd;
+                box-shadow: 0 0 10px rgba(200, 155, 60, 0.5);
+            }
+
+            50% {
+                background-color: #ffe69c;
+                box-shadow: 0 0 20px rgba(200, 155, 60, 0.8);
+            }
+
+            100% {
+                background-color: transparent;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <!-- Main Page View -->
+        <div v-if="currentView === 'main'">
+            <div class="title">IST 661 Project 3 </div>
+            <div class="subtitle">Topics in Risk Management</div>
+            <div class="authors">Contributors: Steven Childs (Team Leader), Andrew Dickson, Ernest Jenkins, Gyles Long,
+            </div>
+            <h1 class="header">Choose a topic to view details</h1>
+
+            <div class="buttons-container">
+                <button v-for="(topic, index) in topics" :key="index" class="topic-button"
+                    @click="handleTopicClick(topic, index)">
+                    {{ topic }}
+                </button>
+            </div>
+        </div>
+
+        <!-- Detail Page View -->
+        <div v-else-if="currentView === 'detail'" class="detail-content" @click="handleCitationClick">
+            <button class="back-button" @click="goBack">← Back to Topics</button>
+            <h2 class="detail-title">{{ selectedTopic }}</h2>
+
+            <!-- Overview Section (only visible if overview exists) -->
+            <div v-if="currentTopicContent.overview" class="detail-section">
+                <h3>Overview</h3>
+                <div v-html="currentTopicContent.overview"></div>
+            </div>
+
+            <!-- Collapsible Sections -->
+            <div v-for="(section, index) in currentTopicContent.collapsibleSections" :key="index"
+                class="detail-section">
+                <details>
+                    <summary
+                        style="cursor: pointer; font-weight: 600; color: #007a87; font-size: 1.2em; margin-bottom: 10px;">
+                        {{ section.summary }}</summary>
+                    <div style="margin-left: 20px; margin-top: 10px;" v-html="section.content"></div>
+                </details>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Vue.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    currentView: 'main', // 'main' or 'detail'
+                    selectedTopic: '',
+                    selectedTopicIndex: null,
+                    topics: [
+                        'Define requirements and/or specifications for a computing problem',
+                        'Evaluate solutions to mitigate or solve a problem',
+                        'Use mathematics or algorithms in problem-solving activities',
+                        'Evaluate a solution(s) against requirements',
+                        'Compare multiple solutions against requirements',
+                        'Communication, Explanation, Presentation, Documentation',
+                        'Assess ethical/legal issues in the discipline',
+                        'Identify a violation of a professional code of ethics',
+                        'Recognize professional responsibilities',
+                        'Demonstrate an awareness of security and information assurance considerations',
+                        'Evaluate local and global impacts of computing solutions'
+                    ],
+                    topicContent: {
+                        0: {
+
+                            overview: `
+                                <p>Understanding how to precisely define requirements and specifications is essential for effective risk management in computing. The NIST Risk Management Framework (RMF) provides a structured method, with the Prepare and Categorize steps serving as foundational elements for successful requirements analysis.</p>
+                            `,
+                            collapsibleSections: [
+                                {
+                                    summary: 'NIST RMF Prepare Step',
+                                    content: `
+                                        <p>The "Prepare" step is the first phase in the NIST RMF, which sets the groundwork for organization-wide risk management efforts. According to the NIST Risk Management Framework, this phase involves assessing organization-wide risk, defining key risk management roles, determining risk tolerance, and establishing formal strategies for continuous monitoring and risk management <a href="#cite1">[1]</a>. The RMF emphasizes that preparation tasks are carried out to ensure all components of an organization are ready for risk management activities. As stated in a detailed guide, the Prepare step "defines the risk context for the organization, identifies risk tolerance, and sets up processes, including documentation standards and communication protocols" <a href="#cite2">[2]</a>. These essential tasks ensure that risk identification and requirements gathering are systematic, repeatable, and aligned with organizational goals.</p>
+                                    `
+                                },
+                                {
+                                    summary: 'Risk Identification and Requirement Gathering',
+                                    content: `
+                                        <p>Effective requirement gathering in risk management begins with risk identification. The Security Risk Management textbook highlights that requirement gathering should systematically capture stakeholder needs, operational requirements, and security specifications before any further steps are taken <a href="#cite3">[3]</a>. Risk identification is described as the process of discovering potential threats and clarifying the scope and context of the assessment, helping organizations determine what is at risk and what protections are needed <a href="#cite4">[4]</a>. This process leads to setting objectives, where requirements for confidentiality, integrity, and availability (CIA) are often specified for each system or component under review. </p>
+                                        <p>Risk identification and requirement gathering are critical because they form the foundation of an effective risk management process. Accurately identifying risks and requirements enables organizations to anticipate threats, clarify objectives, and define the protections needed to keep their assets secure. Without this step, organizations might overlook vulnerabilities or fail to meet stakeholder expectations, leading to increased exposure to attacks, regulatory penalties, or operational failures <a href="#cite3">[3]</a>. This process also ensures that requirements for confidentiality, integrity, and availability—the core elements of information security—are clearly established for each system or process <a href="#cite4">[4]</a>.</p>
+                                        <p>There is significant historical value in risk identification and requirement gathering. Over time, the discipline of risk management emerged in response to repeated failures where organizations either misunderstood or neglected evolving threats. Historic incidents, such as data breaches and infrastructure attacks, have repeatedly shown that thorough risk identification at the outset can prevent costly or catastrophic outcomes <a href="#cite3">[3]</a>. The systematic nature of modern requirement gathering reflects lessons learned from such incidents, driving the adoption of best practices in industries ranging from finance to critical infrastructure <a href="#cite4">[4]</a>. By learning from historical failures, organizations develop more resilient and trustworthy systems that support both business goals and public trust.</p>
+                                    `
+                                },
+                                {
+                                    summary: 'NIST RMF Categorize Step',
+                                    content: `
+                                        <p>The "Categorize" step is the second phase in the NIST RMF, which involves categorizing risks and requirements into manageable groups. According to the NIST Risk Management Framework, this phase involves categorizing risks and requirements into manageable groups, ensuring that risks are appropriately prioritized and requirements are clearly defined <a href="#cite5">[5]</a>. The RMF emphasizes that categorization tasks are carried out to ensure that risks and requirements are appropriately prioritized and clearly defined. As stated in a detailed guide, the Categorize step "categorizes risks and requirements into manageable groups, ensuring that risks are appropriately prioritized and requirements are clearly defined" <a href="#cite6">[6]</a>. These essential tasks ensure that risks and requirements are appropriately prioritized and clearly defined.</p>
+                                        <p>The NIST Risk Management Framework (RMF) Prepare step is primarily used by organizations within the federal government, including U.S. federal agencies, military branches, and government contractors, to manage and secure their information systems in accordance with federal mandates such as FISMA (Federal Information Security Modernization Act) <a href="#cite1">[1]</a>. Many private sector organizations, especially in finance, healthcare, and utilities, also adopt the RMF to align with best practices in cybersecurity and to ensure compliance with regulations and contractual obligations <a href="#cite5">[5]</a>. The RMF is also utilized by third-party vendors, academic institutions, and critical infrastructure operators when they need to demonstrate robust cyber risk management. </p>
+                                        <p>The RMF was established to provide a standardized, repeatable process for organizations to identify, assess, and manage information security and privacy risks in a way that supports operational resilience and regulatory compliance <a href="#cite2">[2]</a>. It was developed by the National Institute of Standards and Technology in response to an increasing number of security threats and incidents targeting government and critical industry systems, seeking to introduce a flexible and comprehensive approach to continuous risk management and improvement <a href="#cite1">[1]</a>. By formalizing organizational risk management practices, the RMF helps organizations proactively address vulnerabilities and maintain trust with stakeholders and the public.</p>
+                                        <h5>Value of the NIST RMF Categorize Step</h5>
+                                        <p>The Categorize step delivers significant value to businesses by helping organizations prioritize their security resources and tailor controls according to risk, rather than apply blanket protections inefficiently. By assigning risk categories based on the potential impact of breaches to confidentiality, integrity, or availability (the CIA triad), businesses ensure their most critical systems receive the strongest safeguards. This focused approach supports cost-effective security, aligning resources to areas of greatest concern and reducing unnecessary spending on lower-risk systems <a href="#cite5">[5]</a>. It also improves compliance, as many regulations require formal documentation and proof of risk-based decision-making <a href="#cite6">[6]</a>.</p>
+                                        <h5>Effects on Business Today</h5>
+                                        <h6>Operational Resilience:</h6>
+                                        <p> The Categorize step helps organizations respond more efficiently to emerging threats, preventing business disruptions and safeguarding critical data that supports core operations <a href="#cite1">[1]</a>.</p>
+                                        <h6>Regulatory Compliance:</h6>
+                                        <p> Industries such as healthcare, finance, and energy use RMF categorization to demonstrate compliance with regulations (FISMA, HIPAA, PCI-DSS) <a href="#cite5">[5]</a>, avoiding fines and legal consequences while maintaining customer trust.</p>
+                                        <h6>Prioritized Investment:</h6>
+                                        <p> Businesses can allocate resources where risk is highest, investing in advanced controls for high-impact systems and reducing expenditure on low-risk assets <a href="#cite6">[6]</a>.</p>
+                                        <h6>Stakeholder Assurance:</h6>
+                                        <p> Establishing a standardized, transparent risk management and categorization process reassures clients, partners, and regulators, promoting business credibility and growth <a href="#cite2">[2]</a>.</p>
+                                        <p> By enabling precise documentation, segmented security strategies, and alignment with business missions, the RMF Categorize step significantly enhances both the protection and continuity of operations for modern enterprises.</p>
+                                        <h5>Application and Rationale</h5>
+                                        <p>Applying both the Prepare and Categorize steps allows organizations to create requirements and specifications informed by a structured risk analysis. The Prepare step ensures requirements are well communicated and understood across stakeholder groups, while the Categorize step quantifies risk for specific systems, helping teams choose the appropriate level of control and documentation. For example, an IT system processing sensitive personal data would be categorized as high-impact, requiring robust security requirements during the initial requirements phase.</p>
+                                        <p>Defining requirements and specifications for a computing problem through the NIST RMF Prepare and Categorize steps ensures organizations are ready for effective risk management and can address security concerns proactively. The systematic approaches outlined by NIST and the guidance from the Security Risk Management textbook support a thorough, defensible process for protecting information technology assets.</p>
+                                    `
+                                },
+                                {
+                                    summary: 'Works Cited',
+                                    content: `
+                                        <ol>
+                                            <li id="cite1">"NIST Risk Management Framework (RMF) - Article." SailPoint, 24 Dec. 2024, www.sailpoint.com/identity-library/nist-risk-management-framework</li>
+                                            <li id="cite2">"Understanding the NIST RMF: Steps, Challenges & Best ..." RegScale, 4 Aug. 2025, regscale.com/blog/understanding-nist-rmf/   </li>
+                                            <li id="cite3">"Security Risk Management [Book]." O'Reilly, 22 Apr. 2014, www.oreilly.com/library/view/security-risk-management/9781597496155/</li>
+                                            <li id="cite4">"Risk Identification - an overview." ScienceDirect Topics, 13 Oct. 2013, www.sciencedirect.com/topics/computer-science/risk-identification</li>
+                                            <li id="cite5">"NIST 800-37: Implementation & Best Practices." Device42, 25 Feb. 2025, www.device42.com/compliance-controls/nist-800-37/</li>
+                                            <li id="cite6">"CMS Risk Management Framework (RMF): Categorize Step." CMS, 11 Sept. 2025, security.cms.gov/policy-guidance/cms-risk-management-framework-rmf-categorize-step.</li>
+                                        </ol>
+                                    `
+                                }
+                            ]
+                        },
+                        1: {
+                            overview: `
+                                <p>Evaluating risk mitigation solutions is a central element of any robust risk management process. Within the NIST Risk Management Framework (RMF), the Select and Implement steps provide structured methods for identifying, tailoring, and deploying effective security controls to address risks identified during prior assessment phases.</p>
+                            `,
+                            collapsibleSections: [
+                                {
+                                    summary: 'Solution Identification and Assessment',
+                                    content: `
+                                    <p>The NIST RMF Select step requires organizations to determine which security and privacy controls are necessary to reduce risk to an acceptable level. Controls are chosen from standardized frameworks such as NIST SP 800-53, and may be system-specific, hybrid, or organizational in scope. The framework “ensures that security and privacy plans reflect the control selection, designation, and allocation,” and organizations are encouraged to tailor baseline controls to meet the specific context and threats faced by each system <a href="#cite1">[1]</a>. Meanwhile, the Implement step focuses not only on deploying selected controls but also on documenting their performance and effect on risk. Implementation requires coordination across teams, careful assignment of roles, and comprehensive security plans to ensure controls are effective and auditable. <a href="#cite2">[2]</a>.</p>
+                                    `
+                                },
+                                {
+                                    summary: 'Comparative Evaluation of Solutions',
+                                    content: `
+                                    <p>Evaluating solutions involves comparing risk mitigation options for effectiveness, cost, feasibility, and alignment with organizational requirements. For example, the Security Risk Management textbook describes using risk assessment tools to calculate the costs and benefits of each security investment, supporting organizational decision-making by weighing risk exposure against business objectives <a href="#cite3">[3]</a>. Additionally, NIST's Guide for Conducting Risk Assessments recommends that organizations consider both qualitative and quantitative factors during evaluation—likelihood and impact, resource demands, and the ease of implementation <a href="#cite4">[4]</a>. Through the RMF’s Assess step, independent assessment teams verify whether security controls are not only present but also effective and aligned with organizational goals <a href="#cite1">[1]</a>.</p>
+                                    `
+                                },
+                                {
+                                    summary: 'Practical Application',
+                                    content: `
+                                    <p>In practice, solution evaluation might involve a matrix mapping potential controls (such as encryption, network segmentation, or physical access restrictions) to specific risks, and scoring each option based on technical, operational, and cost criteria. For example, a healthcare organization may evaluate the use of multi-factor authentication versus single-factor authentication for protecting patient records, selecting the solution that best meets regulatory requirements and delivers strong control effectiveness with minimal operational disruption <a href="#cite3">[3]</a>. The continuous assessment and improvement processes proposed by the NIST RMF support long-term operational resilience and secure business operations.</p>
+                                    `
+                                },
+                                {
+                                    summary: 'Works Cited',
+                                    content: `
+                                        <ol>
+                                            <li id="cite1">"NIST Risk Management Framework (RMF) - Article." SailPoint, 24 Dec. 2024, www.sailpoint.com/identity-library/nist-risk-management-framework</li>
+                                            <li id="cite2">"Understanding the NIST RMF: Steps, Challenges & Best ..." RegScale, 4 Aug. 2025, regscale.com/blog/understanding-nist-rmf/   </li>
+                                            <li id="cite3">"Security Risk Management [Book]." O'Reilly, 22 Apr. 2014, www.oreilly.com/library/view/security-risk-management/9781597496155/</li>
+                                            <li id="cite4">"Guide for Conducting Risk Assessments." NIST, Dec. 2010, nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-30r1.pdf </li>
+                                        </ol>
+                                    `
+                                }
+                            ]
+                        },
+                        2: {
+                            overview: `
+                                <p>Mathematics and algorithms play a foundational role in risk management problem-solving, enabling organizations to systematically analyze risks and optimize security controls. Various resources—such as the Security Risk Management textbook, NIST Guide for Conducting Risk Assessments, and the Common Vulnerability Scoring System (CVSS) calculator—demonstrate that effective cybersecurity and risk management require both quantitative and analytical approaches.</p>
+                                <p>The use of mathematics and algorithms in risk management has a long history that traces back to the development of probability theory and actuarial science in the 17th and 18th centuries. The earliest risk models emerged from financial sectors such as insurance and banking, where mathematical calculations were used to predict losses and set premiums. Over time, risk management incorporated statistical analysis and operations research, expanding into domains like engineering, safety, and eventually information technology <a href="#cite1">[1]</a>.</p>
+                                <p>With the rise of cybersecurity in the late 20th and early 21st centuries, mathematics and algorithms became central to assessing technical risks. NIST formalized this approach in their Guide for Conducting Risk Assessments, introducing frameworks and models for scoring risk based on likelihood and impact, as well as standardized calculation tools such as the Common Vulnerability Scoring System (CVSS) calculator <a href="#cite2">[2]</a>. CVSS, first released in 2005, was developed to create objective, mathematical ratings for code vulnerabilities, helping organizations automate prioritization and remediation. Today, organizations rely on risk matrices, probability calculations, and scoring algorithms to support regulatory compliance, incident response, and proactive security improvement <a href="#cite3">[3]</a>.</p>
+                                <p>The evolution of risk management mathematics reflects centuries of learning from financial, operational, and technical threats, confirming its value as a driver of modern resilience and security.</p>
+                            `,
+                            collapsibleSections: [
+                                {
+                                    summary: 'Mathematical Models in Risk Assessment',
+                                    content: `
+                                    <p>The NIST Guide for Conducting Risk Assessments identifies the use of mathematical models, risk matrices, and probability calculations for evaluating and comparing threats <a href="#cite2">[2]</a>. Documentation of a risk model includes “the identification of risk factors (definitions, descriptions, value scales) and the relationships among those risk factors, as well as algorithms for combining values.” These models typically include scales for likelihood and impact, which are then combined through algorithms—such as multiplication in risk matrices—to produce overall risk scores <a href="#cite3">[3]</a>.</p>
+                                    <p>For example, a probability-impact matrix multiplies the chance of an event (probability) by its expected impact (cost, downtime, data loss), yielding a risk score that guides decision-making about necessary mitigation efforts. Advanced methods, such as Monte Carlo simulations, are also used for modeling complex risk scenarios and forecasting potential outcomes based on hundreds or thousands of probability-weighted data points <a href="#cite4">[4]</a>.</p>
+                                    `
+                                },
+                                {
+                                    summary: 'Algorithms in Vulnerability Scoring',
+                                    content: `
+                                    <p>Algorithms are central to tools like the Common Vulnerability Scoring System (CVSS) calculator, which computes vulnerability severity scores based on numeric metrics related to attack complexity, system privileges, and potential impact <a href="#cite5">[5]</a>. The CVSS calculation algorithm takes multiple metric inputs, applies weighted formulas, and outputs a severity score, which is then used to prioritize remediation and resource allocation <a href="#cite6">[6]</a>. Mathematical rigor ensures consistency and objectivity when comparing risks across systems and organizations, supporting a standardized approach to prioritizing vulnerabilities <a href="#cite7">[7]</a>.</p>
+                                    `
+                                },
+                                {
+                                    summary: 'Practical Example',
+                                    content: `
+                                    <p>Consider evaluating two mitigation options for a critical database: encrypting data at rest versus implementing stricter firewall rules. Using a risk matrix, analysts estimate the likelihood of a breach and the potential impact of each solution. Mathematical models may indicate that encryption delivers a greater reduction in impact, while algorithms such as CVSS scoring clarify which vulnerabilities are most urgent based on their calculated severity. The Security Risk Management textbook further emphasizes that integrating algorithms and quantitative analysis provides clarity, supports transparency in decision-making, and enables objective evaluation of competing strategies <a href="#cite2">[2]</a>.</p>
+                                    `
+                                },
+                                {
+                                    summary: 'Works Cited',
+                                    content: `
+                                        <ol>
+                                            <li id="cite1">"Security Risk Management [Book]." O'Reilly, 22 Apr. 2014, www.oreilly.com/library/view/security-risk-management/9781597496155/</li>
+                                            <li id="cite2">"Guide for Conducting Risk Assessments." NIST, Dec. 2010, nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-30r1.pdf </li>
+                                            <li id="cite3">“Security Risk Assessment Methods: Quantitative & Qualitative.” Destcert, 24 Oct. 2025, destcert.com/resources/risk-assessment-methods/</li>
+                                            <li id="cite4">“The Complete Guide to NIST Risk Assessments.” Security Scientist, 25 Jan. 2025, www.securityscientist.net/blog/guide-to-nist-risk-assessments/</li>
+                                            <li id="cite5">“CVSS v3.0 Calculator Use & Design.” FIRST, 12 Oct 2025, www.first.org/cvss/v3-0/use-design</li>
+                                            <li id="cite6">“CVSS v3.1 Equations.” NVD, 31 Oct 2024, nvd.nist.gov/vuln-metrics/cvss/v3-calculator/v31/equations</li>
+                                            <li id="cite7">“CVSS v3.0 User Guide.” FIRST, 12 Oct 2025, www.first.org/cvss/v3-0/user-guide</li>
+                                        </ol>
+                                    `
+                                }
+                            ]
+                        },
+                        3: {
+                            overview: `
+                                <p>The Categorize and Select steps of the NIST Risk Management Framework, together with the guidance in NIST SP 800-30, provide a structured foundation for determining whether proposed solutions can meet system security requirements. The Categorize step establishes the system’s impact levels and corresponding security category, forming the baseline expectations that any solution must satisfy. The Select step then identifies and tailors the required controls from NIST SP 800-53B, creating concrete, testable criteria against which potential solutions are evaluated. Finally, NIST SP 800-30 offers a methodology for assessing how effectively those solutions reduce risk to acceptable levels by analyzing threats, vulnerabilities, likelihood, and residual risk. Together, these resources ensure that organizations evaluate technologies not only for technical capabilities, but for their ability to meet mandated controls, support mission objectives, and achieve the desired security posture.</p>
+                            `,
+                            collapsibleSections: [
+                                {
+                                    summary: 'NIST RMF Categorize Step',
+                                    content: `
+                                        <p>The NIST Risk Management Framework (RMF) Categorize step provides a foundation that organizations can use to determine whether a proposed solution effectively meets system security requirements. Prior to any solution assessments, the RMF mandates a clear understanding of the system's security requirements, which is determined by assessing the potential for a loss of confidentiality, integrity, or availability for all information types handled by the system. The Categorize Step Quick Start guide explains that these impact values (low, moderate, or high) determine the "security category" that establishes the minimum needed protections for the system and drives all subsequent control selection and assessment activities <a href="#cite1">[1]</a>. </p>
+                                        <p>Because this step defines the worst-case impact across CIA goals, it ensures organizations evaluate solutions against requirements that are linked to mission impact and risk tolerance. For example, if categorization results in a high confidentiality requirement, any proposed solution must be judged on whether it can satisfy the protections expected of a high-impact system. If a proposed solution involves some sort of encryption platform, said encryption platform must meet these guidelines <a href="#cite1">[1]</a>. </p>
+                                        <p>Ultimately, these categorization decisions are used to determine which controls from the NIST SP 800-53B document (which focuses on control baselines) should be implemented <a href="#cite2">[2]</a>. They also influence "documentation level of effort...assessment level of effort, authorization decisions, continuous monitoring frequencies and level of effort, checks and balances for the initial risk assessment, and ongoing risk assessment." Solutions must be evaluated not just by technical fit but also on their capacity to support the required controls and ongoing compliance needs. This means categorization acts as a benchmark for evaluating solutions. Technologies that cannot meet the required impact levels or cannot support the necessary controls should be determined as insufficient.  </p>
+                                    `
+                                },
+                                {
+                                    summary: 'NIST RMF Select Step',
+                                    content: `
+                                    <p>The NIST RMF Select step supports the evaluation of a given solution by defining the security and privacy controls a system must implement based on its categorized impact level <a href="#cite3">[3]</a>. Once the Categorize step determines the system's security category, the Select step requires organizations to choose an initial control baseline from the NIST SP 800-53B document that relates to the system's low, moderate, or high impact rating. As the quick start guide states, "the initial set of controls is selected from the corresponding low, moderate, or high baselines" based on the categorization results. This baseline turns into the benchmark against which proposed solutions are tested: if a solution cannot support or implement the required baseline controls, then it cannot be seen as a viable solution for the system.  </p>
+                                    <p>The Select Step further emphasizes how organizations should tailor and refine these baselines of controls to align with their particular operating environments, mission needs, and risk profiles <a href="#cite3">[3]</a>. Tailoring might involve applying scoping guidance, selecting compensating controls, or specific organization-defined restraints. Each of these factors can introduce additional requirements that a proposed solution must satisfy. The Guide details how tailoring decisions should be captured in security and privacy plans, subject to approval from the appropriate organizational officials, ensuring that the selected solutions can support the baselines controls along with any organization-specific adjustments. This presents another layer of evaluation criteria. Solutions must be judged not only on general technical value, but also on their ability to meet these tailored expectations.  </p>
+                                    <p>As an example, if the initial control baselines includes the AC-2 control (Account Management - from the 800-53B document) and the organization tailors this by defining more strict access review intervals or requiring the use of automated account provisioning methods, then any proposed identity management tool has to be evaluated on whether it can implement these tailored parameters <a href="#cite2">[2]</a>.  The Select step makes explicit what "meeting requirements" might look like in practice by connecting high-level system impact assessments to concrete, practical, testable control expectations <a href="#cite3">[3]</a>. A solution that cannot implement the needed controls (e.g. due to technical limitation, lack of integration capacity, etc.) fails the evaluation. The Select step serves as a vital resource in determining if a solution aligns with and supports the system's established security requirements.  </p>
+                                    `
+                                },
+                                {
+                                    summary: 'NIST SP 800-30: Guide for Conducting Risk Assessments ',
+                                    content: `
+                                    <p>The NIST SP 800-30 document provides a structured approach for evaluating if proposed solutions meet system security requirements, placing a focus on how well those solutions reduce risks to acceptable levels <a href="#cite4">[4]</a>. The guide explains that risk assessment involves examining threats, vulnerabilities, likelihood, and potential impact to determine the level of risk that must be mitigated. After characterizing these risks, organizations can then evaluate whether a proposed control or security solution provides adequate protection in relation to the system's required security posture. This means that solutions are not judged purely by technical features, but also by measurable ability to reduce the likelihood or impact of adverse events to align with organizational risk tolerance.  </p>
+                                    <p>SP 800-30 emphasizes that evaluating a mitigation strategy (e.g. a product, control enhancement, architecture choice, etc.) requires determining if it lowers risk relative to the system's impact level <a href="#cite4">[4]</a>. As shown in the risk model displayed on page 12, the guide stresses that likelihood and impact must be reevaluated after the proposed solution is implemented. This allows organizations to determine the existence of residual risks, the "portion of risk remaining after security measures have been applied,” and determine whether the solution meets system requirements. For example, if a system categorized as high impact needs strong controls to mitigate credential theft risks, SP 800-30 provides the framework for determining if a proposed multi-factor authentication mechanism reduces the chances of unauthorized access, or if more/alternate solutions are needed.  </p>
+                                    <p>This guide also shows how organizations should compare alternative mitigation options using both qualitative and quantitative methods <a href="#cite4">[4]</a>. It notes that organizations can evaluate solutions based on cost, feasibility, technical capability, and the degree to which each option addresses the underlying threat and vulnerability conditions. This permits evaluators to determine whether a solution satisfies the security requirements set during the Categorize and Select RMF steps. A solution that cannot reduce the identified risks to levels in-line with these requirements should be seen as insufficient. SP 800-30 serves as a valuable analytical tool for determining whether a proposed solution meets system security requirements. </p>
+                                    `
+                                },
+                                {
+
+                                    summary: 'Works Cited',
+                                    content: `
+                                        <ol>
+                                            <li id="cite1">"NIST RMF Quick Start Guide CATEGORIZE STEP Frequently Asked Questions (FAQs)." NIST, 9 Dec. 2025, https://csrc.nist.gov/CSRC/media/Projects/risk-management/documents/02-Categorize%20Step/NIST%20RMF%20Categorize%20Step-FAQs.pdf </li>
+                                            <li id="cite2">"Control Baselines for Information Systems and Organizations." NIST, 2020, https://doi.org/10.6028/nist.sp.800-53b  </li>
+                                            <li id="cite3">"NIST RMF Quick Start Guide SELECT STEP Frequently Asked Questions (FAQs) NIST Risk Management Framework (RMF) Select Step." NIST, 1, (March 2021), 2021–2024. Retrieved December 9, 2025 from https://csrc.nist.gov/CSRC/media/Projects/risk-management/documents/03-Select%20Step/NIST%20RMF%20Select%20Step-FAQs.pdf </li>
+                                            <li id="cite4">"Guide for Conducting Risk Assessments." NIST, Dec. 2010, nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-30r1.pdf </li>
+                                        </ol>
+                                    `
+                                }
+                            ]
+                        },
+                        4: {
+                            overview: `
+                                <p>This section explains how NIST SP 800-30, the RMF Select Step, and the CVSS framework collectively support comparing multiple security solutions against system requirements <a href="#cite1">[1]</a>, <a href="#cite2">[2]</a>, <a href="#cite3">[3]</a>, <a href="#cite4">[4]</a>. NIST SP 800-30 provides a structured method for evaluating alternative mitigation strategies by analyzing how different solutions reduce risk, account for threats and vulnerabilities, and affect residual risk. The RMF Select Step adds a control-focused perspective, requiring organizations to compare solution options based on their ability to satisfy tailored NIST SP 800-53B control requirements and to justify why one implementation approach is selected over others. The CVSS User Guide and Calculator further enhance comparison by offering a standardized scoring model that quantifies how well each solution reduces vulnerability severity under specific system conditions. Together, these resources give organizations a consistent, defensible framework for evaluating, contrasting, and selecting the solution that best meets technical, operational, and mission-driven security needs.</p>
+                            `,
+                            collapsibleSections: [
+                                {
+                                    summary: 'NIST SP 800-30: Guide for Conducting Risk Assessments',
+                                    content: `
+                                    <p>NIST SP 800-30 enables comparing multiple solutions against system requirements by providing a strategy for
+evaluating alternative risk mitigation strategies <a href="#cite1">[1]</a>. The document states that organizations must not only identify
+risks but also determine the relative effectiveness of different controls/solutions that could address those risks. It
+notes that risk mitigation choices should be informed by evaluating how well different solutions address identified
+threats, vulnerabilities, and organizational parameters. This allows organizations to compare and contrast
+alternative solutions based on their ability to meet defined security needs.</p>
+                                        <p>The Guide also places emphasis on how evaluating mitigation strategies and risk responses means determining how
+each option impacts the likelihood and impact risks once implemented <a href="#cite1">[1]</a>. By reevaluating risk following the
+application of a control (the process of determining “Residual Risk”), solutions can be compared based on which
+ones result in the optimal reduction in overall risk. For example, when comparing two endpoint protection solutions,
+The Guide would provide a basis for determining which option more effectively reduces the likelihood of malware
+execution and which provides stronger protections against high-impact threats.</p>
+<p>The document further outlines how organizations should analyze alternative solutions by considering their
+feasibility, operational impact, cost, and alignment with mission needs <a href="#cite1">[1]</a>. This means evaluators can compare
+solutions on a holistic basis, factoring in both technical performance and various practical implementation factors.
+For instance, if an organization is selecting between a cloud-based logging platform or an on-premises system, 800-
+30 would instruct them to compare the two options based on both their ability to meet audit/monitoring
+requirements along with their potential impact on staffing, integration complexity, and long-term sustainability. This
+equips organizations with a way to make defensible choices when selecting the solution that best meets security
+and operational goals.</p> `
+                                },
+                                {
+                                    summary: 'NIST RMF Select Step',
+                                    content: `
+                                    <p>The NIST’s Risk Management Framework (RMF) Select Step enables organizations to compare multiple solutions
+                                        against system requirements by offering a structured process for evaluating approaches to control implementation
+                                        <a href="#cite2">[2]</a>. The Select Step covers how organizations must choose an initial control baseline based on system impact and
+                                        then tailor these controls to align with organization-specific environments, mission demands, and risk profiles
+                                        (specifically in the What is the control selection process section). Because tailoring and refinement are required
+                                        steps in any risk mitigation process, organizations often consider multiple technical and procedural choices for
+                                        meeting a given control. This creates a comparison process in which system owners must determine which solution
+                                        most effectively aligns with a selected baseline, meets organization-defined requirements, and supports the
+                                        intended safeguards.</p>
+                                        <p>The Select Step also highlights how tailoring may include selecting compensating controls, applying scoping
+                                        guidance, or supplementing baseline controls in cases where the initial baselines do not fully meet operational
+                                        needs <a href="#cite2">[2]</a>. These tailoring decisions often require organizations to compare different solutions (e.g. access control
+                                        tools, logging systems, or encryption mechanisms) to determine which one delivers the best, most feasible
+                                        implementation of a required control. For example, if a required control mandates automated audio log
+                                        management, organizations might evaluate multiple logging tools to determine which is better at supporting the
+                                        parameters defined for storage capacity, retention configuration, or alerting thresholds. The comparison is tied to
+                                        the Select Step in that each solution should be assessed against how it will satisfy the tailored control definition.</p>
+                                        <p>Finally, the Select Step supports comparison by requiring system owners justify clearly why a particular control
+                                        implementation or technology was chose over alternatives, and to capture these decisions in the appropriate
+                                        system’s security and privacy plans <a href="#cite2">[2]</a>. This ensures chosen solutions are not only technically viable but can be
+                                        demonstrated as the best fit among available options. By structuring control selection as a defined process that
+                                        must consider multiple implementation paths and document the logic behind these choices, the Select Step serves
+                                        as a valuable resource for comparing solutions and selecting the option that optimally meets system needs.</p>
+                                    `
+                                },
+                                {
+                                    summary: 'CVSS User Guide and Calculator',
+                                    content: `
+                                    <p>The Common Vulnerability Scoring System (CVSS) User Guide, along with its Calculator Application, support
+                                        comparing multiple solutions against system requirements by supporting a standardized, quantitative framework
+                                        that evaluates vulnerability severity and the effectiveness of mitigation measures <a href="#cite3">[3]</a>, <a href="#cite4">[4]</a>. CVSS breaks down
+                                        vulnerabilities into measurable characteristics such as exploitability, attack complexity, required privileges, user
+                                        interaction, etc. This allows organizations to model how different solutions might influence these factors. Because
+                                        CVSS scores are computed consistently across systems and products, they allow for direct comparisons of how well
+                                        competing solutions reduce exposure to the vulnerabilities threatening organizational needs.</p>
+                                        <p>The CVSS framework also includes Threat and Environmental metrics that allow evaluators to adjust scores based on
+                                        the specific conditions introduced by each solution <a href="#cite3">[3]</a>. For example, one security product may lower the Attack
+                                        Vector from “Network” to “Adjacent” if it can isolate a system behind a firewall, while another product may reduce
+                                        required privileges or automated remediation tasks. By recalculating CVSS scores under each solution scenario,
+                                        organizations can then determine which option leads to lower residual severity or aligns more effectively with
+                                        system security needs. This quantitative comparison may be particularly useful when solutions seem similar at a
+                                        high level but may differ significantly in terms of how they influence real-world exploitability or impact.</p>
+                                        <p>The User Gude also explains how contextual factors like workforce requirements, recovery capabilities, or how
+                                        readily an attack can be automated can be captured via Environmental and Supplemental metrics <a href="#cite3">[3]</a>. These metrics
+                                        do not change the Base Score (which represents the “intrinsic characteristics of a vulnerability”) but are often
+                                        important when comparing solution options. For instance, if two endpoint security platforms seem to produce
+                                        similar Base severity values, CVSS Environmental scoring might reveal which one is better at protecting high-value
+                                        assets or reducing operational burden through automated recovery. This means organizations can evaluate
+                                        solutions based on how well each one supports mission objectives and risk tolerances rather than purely technical
+                                        performance.</p>
+                                        <p>Ultimately, these CVSS resources provide a repeatable, defensible scoring method that allows evaluators to model
+                                        the effects of different controls. CVSS equips organizations with a structured approach for comparing multiple
+                                        solutions against defined security requirements. It shows which option most effectively reduced vulnerability
+                                        severity, supports organizational goals, and satisfies risk management requirements.</p>
+                                                                            `
+                                },
+                                {
+                                    summary: 'Works Cited',
+                                    content: `
+                                        <ol>
+                                            <li id="cite1">"Guide for Conducting Risk Assessments." NIST, Dec. 2010, nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-30r1.pdf </li>
+                                            <li id="cite2">"NIST RMF Quick Start Guide SELECT STEP Frequently Asked Questions (FAQs) NIST Risk Management Framework (RMF) Select Step." NIST, 1, (March 2021), 2021–2024. Retrieved December 9, 2025 from https://csrc.nist.gov/CSRC/media/Projects/risk-management/documents/03-Select%20Step/NIST%20RMF%20Select%20Step-FAQs.pdf </li>
+                                            <li id="cite3">"CVSS v3.0 User Guide." FIRST, 12 Oct 2025, www.first.org/cvss/v3-0/user-guide</li>
+                                            <li id="cite4">"CVSS v3.0 Calculator Use & Design." FIRST, 12 Oct 2025, www.first.org/cvss/v3-0/use-design</li>
+                                        </ol>
+                                    `
+                                }
+                            ]
+                        },
+                        5: {
+                            overview: `
+                                <p>This section brings together the RMF Implement, Assess, and Authorize steps, along with SP 800-30 Section 3.3, to show how each part of the NIST Risk Management Framework supports clear communication, explanation, presentation, and documentation throughout the system lifecycle <a href="#cite1">[1]</a>, <a href="#cite2">[2]</a>, <a href="#cite3">[3]</a>, <a href="#cite4">[4]</a>. The Implement Step establishes the foundation by requiring organizations to document how controls are put into place and to communicate implementation decisions across stakeholders. The Assess Step builds on this by generating structured, evidence-based assessment results and presenting them through formal reports and summaries that communicate system risk and deficiencies. The Authorize Step consolidates these materials into an authorization package that communicates the system’s overall risk posture to senior officials and records the rationale behind authorization decisions. Finally, SP 800-30 emphasizes how risk information should be communicated clearly, consistently, and in formats tailored to different audiences, ensuring that findings are understandable, actionable, and traceable. Together, these resources create a comprehensive framework that embeds strong communication and documentation practices into every phase of risk management. </p>
+                            `,
+                            collapsibleSections: [
+                                {
+                                    summary: 'NIST RMF Implement Step',
+                                    content: `
+                                    <p>The NIST Risk Management Framework (RMF) Implement Step supports effective communication, explanation, presentation, and documentation by suggesting organization clearly document how selected controls are put into practice and ensure that this information is communicated to stakeholders in a consistent and traceable manner <a href="#cite1">[1]</a>. The Implement Step Fundamentals section details how control implementation involves establishing or using specific processes, procedures, products, and services that meet the intent of the security and privacy controls selected in the RMF Select Step, and these actions must be recorded within the system security and privacy plans to maintain transparency and accountability. This detailed documentation serves as a communication method that explains exactly how controls were implemented, which implementation decisions were made, and how these decisions related back to organizational requirements and risk tolerance.</p>
+                                    <p> The Implement Step further supports communication responsibilities across teams <a href="#cite1">[1]</a>. The Quick Start Guide describes how system owners, security engineers, and other stakeholders must collaborate to determine the appropriate order of control implementation, address hybrid control responsibilities, and ensure inherited or common controls are documented properly. This collaboration needs continuous explanation and coordination so that all parties understand how controls will function in the system’s operational environment. Thorough documentation of these decisions ensures that others (e.g. assessors, authorizing officials, system operators) can review, verify, and present these implementation details as part of broader risk communications. </p>
+                                    <p>Lastly, the Implement Step sets expectations for updating documentation whenever controls are changed, de-selected, or supplemented with compensating measures <a href="#cite1">[1]</a>. The Quick Start Guide explains that removal or modification of controls necessitates the justification and potentially additional documentation of compensation controls, ensuring that any changes are clearly communicated and understandable to decision makers and auditors. By urging organizations to maintain clear, accurate, and up-to-date implementation records, the Implement Step ensures that system security documentation remains a reliable foundation for later assessment, authorization, and continuous monitoring activities. This way, the Implement Step plays a direct role in supporting effective communication and documentation throughout the risk management process.  </p>
+                                    `
+                                },
+                                {
+                                    summary: 'NIST RMF Assess Step',
+                                    content: `
+                                    <p>The Assess RMF Step has significant relevance for effective communication, explanation, presentation, and documentation, defining how assessment information is generated, validated, structured, and shared with organizational stakeholders <a href="#cite2">[2]</a>. According got the Quick-Start Guide, assessments are conducted to determine whether controls are implemented correctly, operating as intended, and meeting system and organizational security and privacy requirements. This process innately requires clear documentation of testing procedures, assessment methods, and evidence that supports assessment results, providing a structured explanation of system security posture to both technical and non-technical readers.</p>
+                                    <p>The Assess Step also outlines expectations for how results should be presented and communicated <a href="#cite2">[2]</a>. The Guide explains how assessors should produce formal assessment reports that contain information about assessed controls, observed deficiencies, and recommended mitigation measures. These reports become key communication tools for authorizing officials, providing a consolidated and comprehensive overview of risks and control effectiveness. The Asses Step also recognizes the value of tailored communication, noting that high-level summaries can be used to clearly present assessment findings, timelines, and inadequacies to leadership without inundating them in procedural details.  </p>
+                                    <p>The Asses Stepp also formalizes the documentation and presentation of remediation actions <a href="#cite2">[2]</a>. It involves outlining how POA&M (plan of action and milestones) must be created, documented, and communicated following assessments, outlining shortcomings, proposed corrective actions, milestones, and responsible parties. This ensures that risks found during the assessment are documented clearly and communicated in a structured manner that supports decision making, tracking, and accountability. The Guide also highlights how assessment results require updates to the system’s security and privacy plans, ensuring ongoing alignment between control documentation, system posture, and communicated risk information.  </p>
+                                    <p>Ultimately, the Assess Step supports communication practices by facilitating the generation of detailed documentation and defining how risk information should be organized and presented to stakeholders <a href="#cite2">[2]</a>. Through formal reports, executive summaries, and required updates to foundational security documentation, this step plays an important role in ensuring that assessment results are communicated clearly, consistently, and in a format that supports effective risk management strategy. </p>
+                                    `
+                                },
+                                {
+                                    summary: 'NIST RMF Authorize Step',
+                                    content: `
+                                    <p>The NIST RMF Authorize Step is also important for communication, explanation, presentation, and documentation, formalizing how risk information is consolidated, presented to leadership, and used to support organizational decision-making <a href="#cite3">[3]</a>. The Quick-Start Guide details how the authorization package includes the system security and privacy plans, assessment reports, plans of actions and milestones, and an optional executive summary, all of which must be complete, accurate, and formatted in a way that communicates the system's risk posture to the authorizing official. This package functions as a comprehensive communication artifact, allowing the authorizing official to understand how controls were implemented, what deficiencies exist, and how those deficiencies are being corrected. The Authorize Step depends on clear documentation and explanations to ensure that complex technical findings can be translated into decisions on whether systems risks are acceptable.</p>
+                                    <p>The Guide also highlights how the Authorize Step calls for information to be presented in a way that enables informed judgment by senior officials <a href="#cite3">[3]</a>. The authorizing official should review the documented evidence, evaluate risk in the context of the organization’s risk tolerance, and may seek clarification from system owners, assessors, or privacy officials to fully understand the implications of system operation. The authorization decision itself, communicated via the authorization package, contains formal terms and conditions for the system’s operation, which should be documented and clearly communicated to system owners and common control providers. This way, the expectations related to continued operation, monitoring, and remediation are clearly presented to all stakeholders. </p>
+                                    <p>This Step further reinforces ongoing communication duties <a href="#cite3">[3]</a>. The FAQ To whom does the authorizing official report authorization decisions? Notes that authorization outcomes are communicated to system owners, common control providers, and other leaders so that risk decisions can be understood in the context of the organization's larger mission. The Guide also explains that organizations increasingly use automated reporting tools to support more efficient documentation and presentation practices, reflecting a focus on ensuring risk information is clearly communicated in a timely manner. Through this guidance, the Authorize Step helps support the effort to not only create documentation, but to see that it is effectively communicated to stakeholders, enabling them to understand, explain, and act upon the present security posture of the systems they control.  </p>
+                                    `
+                                },
+                                {
+                                    summary: 'NIST SP 800-30: Guide for Conducting Risk Assessments',
+                                    content: `
+                                    <p>Section 3.3 of the NIST SP 800-30 document, Communicating and Sharing Risk Assessment Information, provides clear guidance on how risk assessment results should be communicated and documented to organizational stakeholders, making it highly relevant to effective communication, explanation, presentation, and documentation in the risk management process <a href="#cite4">[4]</a>.This section outlines how risk information must be conveyed in such a way that it is comprehensible, actionable, and tailored to the needs of different audiences, including executives, system owners, and technical staff. The document points out how risk communication should clearly explain threat sources, vulnerabilities, likelihood ratings, and the rationale behind risk determinations, ensuring that stakeholders understand not only the results but also the reasoning supporting them. This kind of clear explanation of logic supports the credibility and usability of risk assessment outputs. </p>
+                                    <p>The Document stresses that effective presentation of risk information necessitates selecting appropriate formats based on stakeholder roles <a href="#cite4">[4]</a>. Technical teams might receive detailed documentation, including analytical narratives and supporting evidence, while senior leaders may require more concise summaries which highlight the key risks, mission impacts, and recommended actions. Section 3.3 notes that information sharing should occur throughout the assessment process, including before, during, and after risk analysis, to ensure transparency and to allow stakeholders to validate assumptions, clarify uncertainties, and lend context that might influence risk interpretation. This kind of iterative approach supports a shared understanding of the system’s security posture and enhances the quality of decisions making.</p>
+                                    <p>This section of the 800-30 document highlights how documentation must be stored, shared, and maintained in a way that supports traceability and learning <a href="#cite4">[4]</a>. The document recommends the use of standardized terminology, consistent scoring explanations, and clearly defined likelihood and impact statements, all with the goal of ensuring risk information is presented in a uniform manner across systems and assessment cycles. This allows for comparisons, supports audits, and enables leaders to monitor risk trends over time. SP 800-30 not only guides how risk assessments are performed but also establishes best practices for how findings are communicated and documented so they can effectively support broader organizational risk management activities.  </p>
+                                    `
+                                },
+                                {
+                                    summary: 'Works Cited',
+                                    content: `
+                                        <ol>
+                                            <li id="cite1">"NIST RMF Quick Start Guide IMPLEMENT STEP Frequently Asked Questions (FAQs)." NIST, 2021, https://csrc.nist.gov/CSRC/media/Projects/risk-management/documents/04-Implement%20Step/NIST%20RMF%20Implement%20Step-FAQs.pdf </li>
+                                            <li id="cite2">"NIST RMF Quick Start Guide ASSESS STEP Frequently Asked Questions (FAQs)." NIST, 2021, https://csrc.nist.gov/CSRC/media/Projects/risk-management/documents/05-Assess%20Step/NIST%20RMF%20Assess%20Step-FAQs.pdf </li>
+                                            <li id="cite3">"NIST RMF Quick Start Guide AUTHORIZE STEP Frequently Asked Questions (FAQs)." NIST, 2021, https://csrc.nist.gov/CSRC/media/Projects/risk-management/documents/06-Authorize%20Step/NIST%20RMF%20Authorize%20Step-FAQs.pdf </li>
+                                            <li id="cite4">"Guide for Conducting Risk Assessments." NIST, Dec. 2010, nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-30r1.pdf </li>
+                                        </ol>
+                                    `
+                                },
+                            ]
+                        },
+                        6: {
+
+                            collapsibleSections: [
+                                {
+                                    summary: 'NIST Guide for Conducting Risk Assessments',
+                                    content:   
+                                    `
+                                    <p>The NIST Guide for Conducting Risk Assessments (SP 800-30 Rev. 1) is a key resource because it provides the legal and procedural basis for risk assessment in federal information systems <a href="#cite1">[1]</a>.  It directly links the practice to compliance with the Federal Information Security Management Act (FISMA), highlighting the importance of documentation, accountability, and ongoing monitoring as legal and ethical duties <a href="#cite2">[2]</a>. Building on this, Ross offers a broader organizational view, illustrating how risk management must align with mission-critical functions <a href="#cite3">[3]</a>. His work stresses that agencies are legally required to embed risk assessment into their governance and emphasizes the ethical obligation to ensure these practices serve the public interest. Supporting these federal insights, Solove and Schwartz connect the discussion to privacy law, showing how risk assessments intersect with statutes such as the Privacy Act, HIPAA, and the GDPR <a href="#cite4">[4]</a>. Their analysis highlights that mishandling personal data during risk analysis can result in legal liability and ethical issues, making privacy protection fundamental to responsible risk management. Lastly, Whitman and Mattord introduce the perspective of information security ethics, focusing on professional integrity, transparency, and fairness <a href="#cite5">[5]</a>. Their work links technical processes to ethical standards, stressing that practitioners must avoid conflicts of interest and report risks impartially. Together, these resources provide a comprehensive understanding of how legal requirements and ethical principles come together in risk assessment, helping organizations ensure compliance while maintaining stakeholder trust. </p>
+                                    <p> For example, the Department of Veterans Affairs is required to perform risk assessments to safeguard electronic health records. Legally, this ensures compliance with HIPAA and FISMA, while ethically, it protects veterans’ sensitive medical information from misuse or exposure. The 2017 Equifax data breach highlights the dangers of neglecting proper risk assessment  and mitigation. The company faced lawsuits and regulatory actions, but the ethical lapse was equally damaging; millions of individuals lost trust when their personal data was compromised. These cases show how NIST’s focus on documentation, accountability, and ongoing monitoring supports both legal compliance and ethical duties in practice <a href="#cite2">[2]</a>. </p>
+                                    <p>Risk assessment goes beyond mere compliance, requiring organizations to integrate privacy laws and ethics into their processes. For instance, hospitals conducting risk assessments of electronic health records must adhere to HIPAA to avoid penalties. However, they also have an ethical duty to safeguard patient confidentiality, even in scenarios not explicitly covered by law <a href="#cite4">[4]</a>. Similarly, cybersecurity consultants working with financial institutions must comply with PCI-DSS standards for legal reasons and ethically report vulnerabilities honestly, even if it leads to project delays or increased costs <a href="#cite5">[5]</a>. These cases show that risk assessment is more than a legal requirement; it is a practice based on integrity, transparency, and fairness. Using NIST’s framework alongside privacy laws and ethics strengthens both regulatory adherence and stakeholder trust.</p>
+                                    `
+
+                                },
+                                {
+                                summary: 'NIST Risk Management Framework ',
+                                content: `
+                                <p>The NIST Risk Management Framework (RMF) provides a legal and procedural basis for handling information security risks in federal systems <a href="#cite6">[6]</a>. It guides agencies in classifying information systems, selecting appropriate controls, and maintaining ongoing compliance monitoring <a href="#cite2">[2]</a>. This framework supports the legal aspect of risk assessment by aligning with laws like the Federal Information Security Modernization Act (FISMA). Ethically, the RMF promotes accountability and transparency, requiring organizations to document risks alongside mitigation measures. For instance, federal agencies conducting RMF assessments must ensure the protection of sensitive citizen data, not only to meet legal requirements but also to fulfill their ethical obligation of safeguarding public trust. Consequently, the RMF offers both legal authority and ethical justification for disciplined risk management. </p>
+                                <p>Building on NIST’s foundation, Ross broadens the discussion to include organizational accountability and mission alignment <a href="#cite3">[3]</a>. His work shows that risk management needs to be embedded within governance structures, ensuring assessments support mission-critical functions rather than being seen as isolated compliance duties. Legally, Ross emphasizes that agencies must align risk practices with federal mandates, clarifying jurisdictional roles and responsibilities. Ethically, he highlights that organizations have a duty to ensure risk assessments protect vulnerable groups and serve the public interest. For example, FEMA’s incorporation of risk management into disaster response planning demonstrates how legal compliance with federal standards intersects with the ethical obligation to protect communities. Ross’s resource reinforces that risk management is both a legal requirement and a moral duty. </p>
+                                <p>The ethical and legal aspects of risk management are further clarified by Solove and Schwartz and Whitman and Mattord <a href="#cite4">[4]</a> <a href="#cite5">[5]</a>. Solove and Schwartz link risk management to privacy law, illustrating how frameworks such as HIPAA and GDPR impose legal duties on organizations to safeguard personal data. For instance, a hospital conducting RMF-aligned risk assessments of its electronic health record system must adhere to HIPAA to avoid penalties. However, it also has an ethical obligation to protect patient confidentiality even in situations not explicitly addressed by law. Whitman and Mattord add to this by highlighting professional ethics in information security, such as integrity, transparency, and fairness. A cybersecurity consultant implementing RMF controls at a financial institution must legally comply with PCI-DSS standards, but ethically, they should report vulnerabilities honestly, even if it results in higher costs or delays.  </p>
+                                <p>An example is the 2015 Office of Personnel Management (OPM) breach, which highlighted the impact of poor risk management. Legally, OPM was mandated by the Federal Information Security Modernization Act (FISMA) to perform comprehensive risk assessments. However, insufficient monitoring resulted in the exposure of millions of federal employees’ records. Ethically, this lapse in safeguarding sensitive data damaged public trust and underscored the necessity of ongoing monitoring and accountability, as stressed in the RMF framework <a href="#cite2">[2]</a>.  </p>
+                                `
+                                },
+                                {
+                                    summary: 'AI Disclosure',
+                                    content: `
+                                    <p>Artificial Intelligence (AI) was used during the project as a supporting tool to strengthen research, organization, and the synthesis of complex information. AI helped identify authoritative resources, including NIST publications, privacy law texts, and information security ethics guides, ensuring my work was grounded in credible and relevant material. By processing large volumes of information quickly, AI focused on analyzing how ethical and legal issues intersect with the NIST Risk Management Framework, rather than spending excessive time searching for sources.  </p>
+                                    <p>AI assisted with drafting structure content, refining arguments, and formatting citations in APA style, improving the clarity and professionalism of the writing. For example, AI helped connect theoretical frameworks to real-world case studies such as the Equifax breach and the Office of Personnel Management breach, demonstrating how ethical violations during RMF steps can lead to significant consequences. This practical application strengthened the rationale and showed how the framework operates in real organizational contexts. </p>
+                                    `
+                                },
+                                {
+                                    summary: 'Works Cited',
+                                    content: `
+                                        <ol>
+                                            <li id="cite1">"Guide for Conducting Risk Assessments." NIST, Dec. 2010, nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-30r1.pdf </li>
+                                            <li id="cite2">National Institute of Standards and Technology. 2018. Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy (NIST SP 800-37 Rev. 2). U.S. Department of Commerce. Retrieved from https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-37r2.pdf  </li>
+                                            <li id="cite3">R. Ross. 2012. Managing Information Security Risk: Organization, Mission, and Information System View. National Institute of Standards and Technology.  </li>
+                                            <li id="cite4"> D. J. Solove and P. M. Schwartz. 2021. Information Privacy Law, 7th ed. Wolters Kluwer.  </li>
+                                            <li id="cite5">M. E. Whitman and H. J. Mattord. 2022. Principles of Information Security, 7th ed. Cengage Learning.   </li>
+                                        </ol>
+                                    `
+                                },
+                            ]
+                        },
+                        7: {
+                            collapsibleSections: [
+                                {
+                                    summary: 'NIST RMF Prepare Step',
+                                    content: `
+                                    <p>A breach of personal ethics during the RMF Prepare step can occur if a risk assessor intentionally hides known vulnerabilities to expedite system authorization <a href="#cite1">[1]</a>. For instance, an organization might not disclose weaknesses in access controls during preparation because revealing them could delay deadlines or raise costs. This act breaches the principles of honesty and transparency and violates the legal duties set out in FISMA. The NIST Risk Management Framework (SP 800-37 Rev. 2) states that the Prepare phase must include establishing organizational context, defining risk tolerance, and documenting risks to maintain accountability. Hiding vulnerabilities directly conflicts with these requirements and illustrates how ethical failures can lead to legal issues. Ross emphasizes that risk management should align with mission goals and governance, failing to report vulnerabilities damages both accountability and public trust <a href="#cite2">[2]</a>.  </p>
+                                    <p>The ethical and legal consequences of such violations are reinforced by Solove and Schwartz and Whitman and Mattord <a href="#cite3">[3]</a> <a href="#cite4">[4]</a>. Solove and Schwartz explain that mishandling personal data during risk assessments can result in liability under privacy laws such as HIPAA and GDPR, while ethically it damages stakeholder trust.  </p>
+                                    <p>An example would be a cybersecurity consultant working with a financial institution, who may minimize findings to reduce costs or meet deadlines. While this might appear efficient, it violates ethical principles of honesty, transparency, and fairness, and it undermines legal obligations under standards such as PCI‑DSS. Whitman and Mattord emphasize that professional ethics in information security require integrity and unbiased reporting, even when inconvenient <a href="#cite4">[4]</a>. Concealment of risks during the Prepare step not only jeopardizes compliance but also erodes stakeholder trust, as seen in the 2017 Equifax breach, where inadequate preparation and disclosure led to massive reputational and financial damage. These examples demonstrate that the RMF Prepare step is not simply a compliance exercise; it is a discipline grounded in both legal accountability and ethical responsibility <a href="#cite1">[1]</a>. </p>
+                                    `
+                                },
+                                {
+                                    summary: 'NIST RMF Authorize Step',
+                                    content: `
+                                    <p>A violation of personal ethics during the Authorize phase of the NIST Risk Management Framework (RMF) happens when an Authorizing Official knowingly approves a system with unresolved, high-risk vulnerabilities to meet operational deadlines, thus prioritizing speed over transparency and stakeholder safety <a href="#cite1">[1]</a>. The NIST RMF (SP 800-37 Rev. 2) explicitly demands risk-informed, evidence-based authorization decisions, making concealment or minimization of risks both legally non-compliant and ethically wrong. Ross emphasizes that risk management must align with organizational missions, approving a system without addressing mission-critical risks damages accountability and public trust <a href="#cite2">[2]</a>.  </p>
+                                    <p>Solove and Schwartz point out that authorizing systems with data protection gaps can lead to liability under HIPAA or GDPR and violate ethical duties to uphold individual rights <a href="#cite3">[3]</a>. Whitman and Mattord highlight the importance of professional ethics, such as integrity and unbiased reporting; approving a system while hiding unfavorable findings breaches professional integrity <a href="#cite4">[4]</a>. Collectively, these sources show that ethical authorization requires honest risk communication, thorough documentation, and stakeholder-focused risk acceptance—anything less is both unethical and legally problematic. </p>
+                                    <p>The 2017 Equifax breach serves as a key example in which poor authorization practices and a failure to address known vulnerabilities resulted in the exposure of sensitive personal data for over 140 million people. Legally, it showed non-compliance with FISMA and PCI-DSS standards, while ethically, it reflected a failure to uphold stakeholder trust. The NIST RMF (SP 800-37 Rev. 2) states that authorization should be based on credible evidence and explicit risk acceptance, and that hiding or downplaying risks breaches compliance and integrity <a href="#cite1">[1]</a>. Ross adds that authorization decisions must support organizational missions and governance to ensure accountability <a href="#cite2">[2]</a>.</p>
+                                    `
+                                },
+                                {
+                                    summary: 'AI Disclosure',
+                                    content: `
+                                    <p>Artificial Intelligence (AI) was used during the project as a supporting tool to strengthen research, organization, and the synthesis of complex information. AI helped identify authoritative resources, including NIST publications, privacy law texts, and information security ethics guides, ensuring my work was grounded in credible and relevant material. By processing large volumes of information quickly, AI focused on analyzing how ethical and legal issues intersect with the NIST Risk Management Framework, rather than spending excessive time searching for sources.  </p>
+                                    <p>AI assisted with drafting structure content, refining arguments, and formatting citations in APA style, improving the clarity and professionalism of the writing. For example, AI helped connect theoretical frameworks to real-world case studies such as the Equifax breach and the Office of Personnel Management breach, demonstrating how ethical violations during RMF steps can lead to significant consequences. This practical application strengthened the rationale and showed how the framework operates in real organizational contexts. </p>
+                                    `
+                                },
+                                {
+                                    summary: 'Works Cited',
+                                    content: `
+                                        <ol>
+                                            <li id="cite1">National Institute of Standards and Technology. 2018. Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy (NIST SP 800-37 Rev. 2). U.S. Department of Commerce. Retrieved from https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-37r2.pdf  </li>
+                                            <li id="cite2">R. Ross. 2012. Managing Information Security Risk: Organization, Mission, and Information System View. National Institute of Standards and Technology.  </li>
+                                            <li id="cite3"> D. J. Solove and P. M. Schwartz. 2021. Information Privacy Law, 7th ed. Wolters Kluwer.  </li>
+                                            <li id="cite4">M. E. Whitman and H. J. Mattord. 2022. Principles of Information Security, 7th ed. Cengage Learning.   </li>
+                                        </ol>
+                                    `
+                                },
+                            ]
+                        },
+                        8: {
+
+                            collapsibleSections: [
+                                {
+                                    summary: 'NIST RMF Implement Step',
+                                    content: `
+                                    <p>The NIST RMF (SP 800-37 Rev. 2) justifies requiring organizations to implement controls based on system classification and risk appetite, ensuring adherence to FISMA and other federal requirements <a href="#cite1">[1]</a>. Ross emphasizes that implementation must align with organizational missions and governance structures; improper control application risks losing accountability and eroding public trust <a href="#cite2">[2]</a>. Solove and Schwartz  link implementation to privacy laws, showing that controls like encryption and access restrictions directly safeguard personal data under HIPAA and GDPR, making their correct use a legal obligation and ethical duty to protect individual rights <a href="#cite3">[3]</a>. Whitman and Mattord also highlight professional ethics by underscoring the importance of integrity and transparency in information security; dishonest or incomplete control implementations breach professional standards and expose organizations to risk <a href="#cite4">[4]</a>. Collectively, these sources demonstrate that the Implement step is not just a technical process—it is a professional duty involving legal compliance, ethical standards, and mission consistency. </p>
+                                    <p>For instance, during Target's 2013 data breach, investigators discovered that, despite having security tools, the controls were not effectively implemented or monitored, resulting in the theft of millions of customer records. This highlights how ineffective control implementation can violate standards such as PCI-DSS and ethical obligations to safeguard consumer trust. The NIST RMF (SP 800-37 Rev. 2) emphasizes the importance of consistent control application and the documentation of their effectiveness <a href="#cite1">[1]</a>. Ross agrees, noting that implementation should align with organizational missions and governance to ensure accountability <a href="#cite2">[2]</a>. </p>
+                                    <p> Solove and Schwartz link control implementation to privacy laws, indicating that measures such as encryption and access restrictions are vital for protecting personal data under HIPAA and GDPR, making their proper use both legally required and ethically necessary <a href="#cite3">[3]</a>. Whitman and Mattord (2022) further stress that integrity and transparency are core professional ethics, and incomplete or dishonest control implementation can violate standards and pose risks <a href="#cite4">[4]</a>. Collectively, these examples illustrate that the "Implement" step is not only technical but also a professional obligation involving legal compliance, ethical standards, and alignment with organizational goals. </p>
+                                    `
+                                },
+                                {
+                                    summary: 'Works Cited',
+                                    content: `
+                                        <ol>
+                                            <li id="cite1">National Institute of Standards and Technology. 2018. Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy (NIST SP 800-37 Rev. 2). U.S. Department of Commerce. Retrieved from https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-37r2.pdf  </li>
+                                            <li id="cite2">R. Ross. 2012. Managing Information Security Risk: Organization, Mission, and Information System View. National Institute of Standards and Technology.  </li>
+                                            <li id="cite3"> D. J. Solove and P. M. Schwartz. 2021. Information Privacy Law, 7th ed. Wolters Kluwer.  </li>
+                                            <li id="cite4">M. E. Whitman and H. J. Mattord. 2022. Principles of Information Security, 7th ed. Cengage Learning.   </li>
+                                        </ol>
+                                    `
+                                }
+                            ]
+                        },
+                        9: {
+                            collapsibleSections: [
+                                {
+                                    summary: 'NIST RMF Prepare Step',
+                                    content: `
+                                    <p>The prepare step lays the foundation for an organization’s cybersecurity posture by aligning governance , roles, responsibilities and risk tolerance <a href="#cite1">[1]</a>. This step promotes an organizations understanding of security expectations. One of the objectives of the prepare step is to “Facilitating organization-wide identification of common controls and the development of organizationally tailored control baselines, reducing the workload on individual system owners and the cost of system development and asset protection.” </p>
+                                    <p>This objective supports an awareness of security and information assurance considerations because identifying common controls and tailoring baselines ensures personnel understand what controls are required, why they are implemented and how they contribute to organizational security. This step ensures that security responsibilities are spread out across the organization appropriately. </p>
+                                    <h5>Practical Example:</h5>
+                                    <p>In an IT department that supports public safety departments such as police and fire departments, the prepare step is essential. During this step the department will identify common controls such as implementing a multi-factor authentication solution and configuring a centralized logging server.  </p>
+                                    <p>Because sensitive information dictates certain security controls to be implemented, all involved from system admins to end users are aligned with these security expectations. This helps improve compliance and spread awareness across the organization about mandatory protections.  </p>
+                                    `
+                                },
+                                {
+                                    summary: 'NIST SP 800-30 ',
+                                    content: `
+                                    <p>NIST SP 800-30 directly supports this topic because understanding security and information assurance begins with understanding risk <a href="#cite2">[2]</a>. NIST SP 800-30 explains how to evaluate the factors that contribute to cybersecurity threats and system weaknesses, enabling personnel to make informed decisions regarding protection strategies. SP 800-30 defines a risk assessment as “Risk assessment is the process of identifying, estimating, and prioritizing information security risks”. The guide covers topics such as business impact analysis , asset management, risk-based vulnerability management and threat management. </p>
+                                    <p>SP 800-30 also promotes information assurance by ensuring that staff recognize the relationship between confidentiality, integrity and availability during the assessment process <a href="#cite2">[2]</a>. When employees assess risk, they become more aware of how loss of data, service interruptions, unauthorized access or system manipulation can affect business operations.  </p>
+                                    <h5>Practical Example:</h5>
+                                    <p>An example of applying NIST SP 800-30 is when an organization assesses the risk associated with its sensitive data file systems. Using SP 800-30, the IT team identifies threats such as unauthorized access, phishing attempts targeting staff and potential malware infections on workstations <a href="#cite2">[2]</a>. They can then identify vulnerabilities such as weak passwords, outdated access permissions and no logging server. </p>
+                                    <p>Each threat and vulnerability would be evaluated based on likelihood and the potential impact of confidentiality and availability. For example, if unauthorized users were able to access files with personal information of other employees, then trust would be eroded not to mention the violations of confidentiality and compliance. Based on this analysis the organization could implement stronger authentication methods, conduct regular permission reviews and enable logging and alerting.  </p>
+                                    `
+                                },
+                                {
+                                    summary: 'Security Risk Management Textbook',
+                                    content:`
+                                    <p>The textbook Security Risk Management – The Driving Force for Operational Resilience supports this topic by emphasizing the critical role that organizational awareness plays in maintaining security and information assurance <a href="#cite3">[3]</a>. The guide covers topics such as business impact analysis , asset management, risk-based vulnerability management and threat management. Security Risk Management also mentions about enabling the human firewall which emphasis staff security awareness education. According to the book “ Risk-enabling the human firewall, or educating your workforce, to be risk empowered may seem something of a myth but bringing risk to the departments of an organization through enablement will help facilitate the concepts discussed in the previous chapter. With the increased use of technologies leading to the embracement of new and a wide range of end-user demographics within an organization, it has never been more important to develop a human-centered approach to risk and information security services. “ This quote directly reinforces the idea that awareness at the human level is essential to maintaining confidentiality, integrity and availability. The text explains the best way to improve security awareness with end users is by making small changes and listening to ideas provided by employees. Making small changes is easier for employees to implement and can be more cost effective for the organization. Also, employees are more likely to be invested in changes when they are involved in the process of giving ideas for improvement in security. This contributes to a security aware culture in which employees recognize their responsibilities and are invested in reducing organizational risk.  </p>
+                                    <h5>Practical Example:</h5>
+                                    <p>A city government IT department implements recurring security awareness training for all employees. The videos would focus on topics such as identifying phishing attempts and the correct way to report suspicious activity. An employee gets an email requesting them to change their password by clicking a link. The employee remembers their training on how to spot suspicious signs in a phishing email. The employee contacts the IT department to verify the email, and they verify that the email is not legitimate. Because this employee was trained to act as part of the “human firewall”, she recognizes the threat and defends the organization. Her awareness prevents unauthorized access to the network and demonstrates how empowering staff directly enhances information assurance. </p>
+                                    `
+                                },
+                                {
+                                    summary: 'AI Disclosure',
+                                    content: `
+                                    <p>AI was used to determine which references match best with my assigned topics and the reason why it matched them. </p>
+                                    `
+                                },
+                                {
+                                    summary: 'Works Cited',
+                                    content: `
+                                        <ol>
+                                            <li id="cite1">Computer Security Division, Information Technology Laboratory, National Institute of Standards and Technology, U.S. Department of Commerce. (n.d.). Prepare Step - NIST Risk Management Framework | CSRC | CSRC. https://csrc.nist.gov/Projects/risk-management/about-rmf/prepare-step  </li>
+                                            <li id="cite2"> Initiative, J. T. F. T. (2012). Guide for conducting risk assessments. https://doi.org/10.6028/nist.sp.800-30r1  </li>
+                                            <li id="cite3">Seaman, J., & Gioia, M. (2023). Security risk management - the driving force for operational resilience. https://doi.org/10.1201/9781003288084  </li>
+                                        </ol>
+                                    `
+                                }
+                            ]
+                        },
+                        10: {
+                            collapsibleSections: [
+                                {
+                                    summary: 'NIST SP 800-30',
+                                    content: `
+                                    <p>NIST SP 800-30 supports this topic because it provides a structured method for evaluating how computing solutions produce both local and global impacts [1]. The guide defines risk in a way that not only covers local organization but how it can extend beyond that. In section 2.2 Risk Assessment SP 800-30 states “Risk assessments address the potential adverse impacts to organizational operations and assets, individuals, other organizations, and the economic and national security interests of the United States, arising from the operation and use of information systems and the information processed, stored, and transmitted by those systems.” . This definition establishes that computing systems exist within larger networks and interconnected systems and that decisions made locally can create consequences for eternal partners or other connected infrastructures.  </p>
+                                    <p>NIST SP 800-30 also defines a” e risk management hierarchy—organization level, mission/business process level, and information system level [1]. Figure 4 illustrates the risk management hierarchy defined in NIST Special Publication 800-39, which provides multiple risk perspectives from the strategic level to the tactical level. Traditional risk assessments generally focus at the Tier 3 level (i.e., information system level) and as a result, tend to overlook other significant risk factors that may be more appropriately assessed at the Tier 1 or Tier 2 levels (e.g., exposure of a core mission/business function to an adversarial threat based on information system interconnections).”  This multi-tier model directly aligns with evaluating local and global impacts because it requires organizations to consider how risk extend from individual systems to enterprise level operations and other non-local systems. The model works from top down and from bottom to top. This helps organizations prepare for threats that may originate externally. This enforces the idea that risk are not limited to local conditions and may be influenced by global threats or shared dependencies. </p>
+                                    <h5>Practical Example:</h5>
+                                    <p>An example can be seen in a local municipality interconnected network dispatch network. Having interconnected networks can expose both organizations to threats originating from the other. Locally, threats can be identified such as unauthorized access, data breaches, misconfigurations and downtimes. Understanding the importance of not only the security of the local network but downtime to the global network can have huge implications across multiple municipalities. By applying the tiered approach and impact definitions in SP 800-30, the city is able to understand both the local risk and the broader global risk that can exist. </p>
+                                    `
+                                },
+                                {
+                                    summary: 'NIST RFM Authorize Step',
+                                    content: `
+                                    <p>The Authorize step is designed to ensure that decision makers evaluate a system’s risk from inter-organizational context before granting approval for access [2]. It states the propose is to “Provide  accountability by requiring a senior official to determine if the security and privacy risk based on the operation of a system or the use of common controls, is acceptable." This requirement ensures that risk decisions are not made solely by system implementers but by other leadership who must consider the full scope of potential consequences for internal and global dependencies.  </p>
+                                    <p>As part of the process, the RMF mandates the creation of an authorization package consisting of the security system plan, assessment reports, and  a plan of action [2]. The authorizing official reviews this package to render a risk determination and issue an authorization decision. By requiring such documentation and high-level review, the Authorize step ensures that computing solutions are evaluated not only for their local impacts on systems but also for their broader potential effects on interconnected systems. The Authorize step formalizes a decision making checkpoint that forces organizations to weigh risk against business operations.  </p>
+                                    <h5>Practical Example:</h5>
+                                    <p>In a traffic network, many vendors work with traffic employees to install and maintain assets. The traffic department is responsible for the network that all devices connect to and make decisions on access to it. The traffic department can use the RMF -Authorize step to create a plan with check and balances built in to determine risk and need for vendor access to the network. The system administrator would create access if approved by traffic supervisors and monitor need for access as work is done. Through the Authorize step, leadership evaluates both the local operational impact and the broader systemic risks before approving the access to systems.  </p>
+                                    `
+                                },
+                                {
+                                    summary: 'AI Disclosure',
+                                    content: `
+                                    <p>AI was used to determine which references match best with my assigned topics and the reason why it matched them. </p>
+                                    `
+                                },
+                                {
+                                    summary: 'Works Cited',
+                                    content:`
+                                        <ol>
+                                            <li id="cite1"> Initiative, J. T. F. T. (2012). Guide for conducting risk assessments. https://doi.org/10.6028/nist.sp.800-30r1  </li>
+                                            <li id="cite2">NIST. (2021). NIST RMF Quick Start Guide. In NIST RMF Quick Start Guide. https://csrc.nist.gov/CSRC/media/Projects/risk-management/documents/06-Authorize%20Step/NIST%20RMF%20Authorize%20Step-FAQs.pdf </li>
+                                        </ol>
+                                    `
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            computed: {
+                currentTopicContent() {
+                    if (this.selectedTopicIndex !== null && this.topicContent[this.selectedTopicIndex]) {
+                        return this.topicContent[this.selectedTopicIndex];
+                    }
+                    return { sections: [] };
+                }
+            },
+            methods: {
+                handleTopicClick(topicName, index) {
+                    this.selectedTopic = topicName;
+                    this.selectedTopicIndex = index;
+                    this.currentView = 'detail';
+                    // Attach citation link handlers after view changes
+                    this.$nextTick(() => {
+                        this.attachCitationHandlers();
+                    });
+                },
+                goBack() {
+                    this.currentView = 'main';
+                    this.selectedTopic = '';
+                    this.selectedTopicIndex = null;
+                },
+                attachCitationHandlers() {
+                    // Ensure $el exists and is a DOM element
+                    const rootElement = this.$el && this.$el.nodeType === 1
+                        ? this.$el
+                        : document.querySelector('#app');
+
+                    if (!rootElement) return;
+
+                    // Find all citation links
+                    const citationLinks = rootElement.querySelectorAll('a[href^="#cite"]');
+                    citationLinks.forEach(link => {
+                        // Remove existing listeners to prevent duplicates
+                        const newLink = link.cloneNode(true);
+                        link.parentNode.replaceChild(newLink, link);
+
+                        newLink.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const targetId = newLink.getAttribute('href').substring(1); // Remove the #
+                            const targetElement = document.getElementById(targetId);
+
+                            if (targetElement) {
+                                // Find and open the Works Cited section if it's not already open
+                                const worksCitedDetails = Array.from(document.querySelectorAll('details')).find(details => {
+                                    const summary = details.querySelector('summary');
+                                    return summary && summary.textContent.trim().toLowerCase().includes('works cited');
+                                });
+
+                                if (worksCitedDetails && !worksCitedDetails.open) {
+                                    worksCitedDetails.open = true;
+                                }
+
+                                // Scroll to the element
+                                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                                // Add highlight class
+                                targetElement.classList.add('highlighted');
+
+                                // Remove highlight after animation completes
+                                setTimeout(() => {
+                                    targetElement.classList.remove('highlighted');
+                                }, 2000);
+                            }
+                        });
+                    });
+                },
+                highlightCitation(citationId) {
+                    const targetElement = document.getElementById(citationId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        targetElement.classList.add('highlighted');
+                        setTimeout(() => {
+                            targetElement.classList.remove('highlighted');
+                        }, 2000);
+                    }
+                },
+                handleCitationClick(event) {
+                    // Check if clicked element is a citation link
+                    const link = event.target.closest('a[href^="#cite"]');
+                    if (link) {
+                        event.preventDefault();
+                        const targetId = link.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+
+                        if (targetElement) {
+                            // Find and open the Works Cited section if it's not already open
+                            const worksCitedDetails = Array.from(document.querySelectorAll('details')).find(details => {
+                                const summary = details.querySelector('summary');
+                                return summary && summary.textContent.trim().toLowerCase().includes('works cited');
+                            });
+
+                            if (worksCitedDetails && !worksCitedDetails.open) {
+                                worksCitedDetails.open = true;
+                            }
+
+                            // Scroll to the citation
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                            // Add highlight class
+                            targetElement.classList.add('highlighted');
+
+                            // Remove highlight after animation completes
+                            setTimeout(() => {
+                                targetElement.classList.remove('highlighted');
+                            }, 2000);
+                        }
+                    }
+                }
+            },
+            updated() {
+                // Re-attach handlers when content updates
+                if (this.currentView === 'detail') {
+                    this.$nextTick(() => {
+                        this.attachCitationHandlers();
+                    });
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
